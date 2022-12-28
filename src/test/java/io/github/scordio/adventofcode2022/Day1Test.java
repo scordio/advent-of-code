@@ -3,8 +3,6 @@ package io.github.scordio.adventofcode2022;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.InputStream;
-
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.stream;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,9 +12,9 @@ class Day1Test {
 
   @Test
   void part1() throws Exception {
-    try (InputStream is = this.getClass().getResourceAsStream("day1")) {
-      int answer = stream(new String(is.readAllBytes(), UTF_8).split("\\n\\n"))
-        .mapToInt(lines -> stream(lines.split("\\n"))
+    try (var inputStream = getClass().getResourceAsStream("day1")) {
+      int answer = stream(new String(inputStream.readAllBytes(), UTF_8).split("\\n\\n"))
+        .mapToInt(block -> block.lines()
           .mapToInt(Integer::parseInt)
           .sum())
         .max()
@@ -28,9 +26,9 @@ class Day1Test {
 
   @Test
   void part2() throws Exception {
-    try (InputStream is = this.getClass().getResourceAsStream("day1")) {
-      int answer = stream(new String(is.readAllBytes(), UTF_8).split("\\n\\n"))
-        .mapToInt(lines -> stream(lines.split("\\n"))
+    try (var inputStream = getClass().getResourceAsStream("day1")) {
+      int answer = stream(new String(inputStream.readAllBytes(), UTF_8).split("\\n\\n"))
+        .mapToInt(block -> block.lines()
           .mapToInt(Integer::parseInt)
           .sum())
         .map(i -> ~i)
