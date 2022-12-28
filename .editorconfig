@@ -1,0 +1,18 @@
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+# 2 space indentation for java, xml and yml files
+[*.java]
+indent_size = 2
+indent_style = space
+
+# Maven POM code convention
+[pom.xml]
+indent_size = 2
+indent_style = space
+max_line_length = 205
