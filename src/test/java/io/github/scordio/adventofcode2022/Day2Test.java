@@ -3,18 +3,17 @@ package io.github.scordio.adventofcode2022;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.InputStream;
 import java.util.Map;
+import java.util.Scanner;
 
-import static java.nio.file.Files.lines;
-import static java.nio.file.Path.of;
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 2: Rock Paper Scissors")
 class Day2Test {
 
   @Test
-  void part1() throws Exception {
+  void part1() {
     var scores = Map.of(
       "A X", 4,
       "A Y", 8,
@@ -27,15 +26,17 @@ class Day2Test {
       "C Z", 6
     );
 
-    try (var lines = lines(of(getClass().getResource("day2").toURI()))) {
-      int answer = lines.mapToInt(scores::get).sum();
+    try (var scanner = new Scanner(getClass().getResourceAsStream("day2"), UTF_8)) {
+      int answer = scanner.useDelimiter("\\R").tokens()
+        .mapToInt(scores::get)
+        .sum();
 
-      assertThat(answer).isEqualTo(15572);
+      assertEquals(15572, answer);
     }
   }
 
   @Test
-  void part2() throws Exception {
+  void part2() {
     var scores = Map.of(
       "A X", 3,
       "A Y", 4,
@@ -48,10 +49,12 @@ class Day2Test {
       "C Z", 7
     );
 
-    try (var lines = lines(of(getClass().getResource("day2").toURI()))) {
-      int answer = lines.mapToInt(scores::get).sum();
+    try (var scanner = new Scanner(getClass().getResourceAsStream("day2"), UTF_8)) {
+      int answer = scanner.useDelimiter("\\R").tokens()
+        .mapToInt(scores::get)
+        .sum();
 
-      assertThat(answer).isEqualTo(16098);
+      assertEquals(16098, answer);
     }
   }
 
