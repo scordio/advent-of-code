@@ -3,8 +3,8 @@ package io.github.scordio.adventofcode2022;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
 import java.util.Scanner;
+import java.util.function.ToIntFunction;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,21 +14,22 @@ class Day2Test {
 
   @Test
   void part1() {
-    var scores = Map.of(
-      "A X", 4,
-      "A Y", 8,
-      "A Z", 3,
-      "B X", 1,
-      "B Y", 5,
-      "B Z", 9,
-      "C X", 7,
-      "C Y", 2,
-      "C Z", 6
-    );
+    ToIntFunction<String> scores = line -> switch (line) {
+      case "A X" -> 4;
+      case "A Y" -> 8;
+      case "A Z" -> 3;
+      case "B X" -> 1;
+      case "B Y" -> 5;
+      case "B Z" -> 9;
+      case "C X" -> 7;
+      case "C Y" -> 2;
+      case "C Z" -> 6;
+      default -> throw new IllegalArgumentException(line);
+    };
 
     try (var scanner = new Scanner(getClass().getResourceAsStream("day2"), UTF_8)) {
       int answer = scanner.useDelimiter("\\R").tokens()
-        .mapToInt(scores::get)
+        .mapToInt(scores)
         .sum();
 
       assertEquals(15572, answer);
@@ -37,21 +38,22 @@ class Day2Test {
 
   @Test
   void part2() {
-    var scores = Map.of(
-      "A X", 3,
-      "A Y", 4,
-      "A Z", 8,
-      "B X", 1,
-      "B Y", 5,
-      "B Z", 9,
-      "C X", 2,
-      "C Y", 6,
-      "C Z", 7
-    );
+    ToIntFunction<String> scores = line -> switch (line) {
+      case "A X" -> 3;
+      case "A Y" -> 4;
+      case "A Z" -> 8;
+      case "B X" -> 1;
+      case "B Y" -> 5;
+      case "B Z" -> 9;
+      case "C X" -> 2;
+      case "C Y" -> 6;
+      case "C Z" -> 7;
+      default -> throw new IllegalArgumentException(line);
+    };
 
     try (var scanner = new Scanner(getClass().getResourceAsStream("day2"), UTF_8)) {
       int answer = scanner.useDelimiter("\\R").tokens()
-        .mapToInt(scores::get)
+        .mapToInt(scores)
         .sum();
 
       assertEquals(16098, answer);
