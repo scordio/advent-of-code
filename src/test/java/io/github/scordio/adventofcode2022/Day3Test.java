@@ -14,8 +14,8 @@ class Day3Test {
 
   @ParameterizedTest
   @CsvSource({
+    "day3-example, 157",
     "day3, 8123",
-    "day3-example, 157"
   })
   void part1(String input, int expected) {
     try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
@@ -39,8 +39,8 @@ class Day3Test {
 
   @ParameterizedTest
   @CsvSource({
+    "day3-example, 70",
     "day3, 2620",
-    "day3-example, 70"
   })
   void part2(String input, int expected) {
     try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
