@@ -6,7 +6,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Scanner;
 import java.util.function.ToIntFunction;
-import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,19 +61,17 @@ class Day1Test {
   }
 
   private static int getFirst(String value) {
-    return DIGIT_OR_WORD
-      .matcher(value)
-      .results()
-      .map(MatchResult::group)
-      .findFirst()
-      .map(Day1Test::parseInt)
-      .orElseThrow();
+    Matcher matcher = DIGIT_OR_WORD.matcher(value);
+
+    if (matcher.find()) return parseInt(matcher.group());
+
+    throw new IllegalArgumentException();
   }
 
   private static int getLast(String value) {
     Matcher matcher = DIGIT_OR_WORD.matcher(value);
 
-    for (int i = value.length() - 1; i >= 0; --i ) {
+    for (int i = value.length() - 1; i >= 0; --i) {
       if (matcher.find(i)) {
         return parseInt(matcher.group());
       }
