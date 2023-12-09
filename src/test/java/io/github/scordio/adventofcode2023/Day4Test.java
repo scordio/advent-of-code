@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2023;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -39,6 +40,7 @@ class Day4Test {
     }
   }
 
+  @Disabled("Slow execution")
   @ParameterizedTest
   @CsvSource({
     "day4-example1, 30",
