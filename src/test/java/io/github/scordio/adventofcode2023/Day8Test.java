@@ -25,7 +25,7 @@ class Day8Test {
     "day8-example2, 6",
     "day8, 20221",
   })
-  void part1(String input, int expected) {
+  void part1(String input, long expected) {
     try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
       Instructions instructions = new Instructions(scanner.nextLine());
 
