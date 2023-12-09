@@ -65,7 +65,7 @@ class Day9Test {
     }
 
     private long predictNextValue() {
-      return iterate(startingSequence, History::hasNotAllZeros, History::getNextSequence)
+      return iterate(startingSequence, History::hasAnyNonZero, History::getNextSequence)
         .map(sequence -> sequence[sequence.length - 1])
         .toList()
         .reversed()
@@ -74,7 +74,7 @@ class Day9Test {
     }
 
     private long predictPreviousValue() {
-      return iterate(startingSequence, History::hasNotAllZeros, History::getNextSequence)
+      return iterate(startingSequence, History::hasAnyNonZero, History::getNextSequence)
         .map(sequence -> sequence[0])
         .toList()
         .reversed()
@@ -82,7 +82,7 @@ class Day9Test {
         .reduce(0L, (value1, value2) -> value2 - value1);
     }
 
-    private static boolean hasNotAllZeros(long[] sequence) {
+    private static boolean hasAnyNonZero(long[] sequence) {
       return stream(sequence).anyMatch(value -> value != 0);
     }
 
