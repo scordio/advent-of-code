@@ -15,7 +15,7 @@ import java.util.stream.LongStream;
 import static java.lang.Long.parseLong;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.regex.Pattern.compile;
-import static java.util.stream.LongStream.iterate;
+import static java.util.stream.LongStream.range;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 5: If You Give A Seed A Fertilizer")
@@ -109,7 +109,7 @@ class Day5Test {
   private static LongStream processSeedRange(MatchResult result) {
     long rangeStart = parseLong(result.group(1));
     long rangeLength = parseLong(result.group(2));
-    return iterate(rangeStart, i -> i < rangeStart + rangeLength, i -> i + 1);
+    return range(rangeStart, rangeStart + rangeLength);
   }
 
   private static LongUnaryOperator parseMap(String input) {

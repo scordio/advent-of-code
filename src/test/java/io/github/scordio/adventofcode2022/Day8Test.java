@@ -12,7 +12,6 @@ import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.stream;
-import static java.util.stream.IntStream.iterate;
 import static java.util.stream.IntStream.range;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,10 +29,8 @@ class Day8Test {
         .map(line -> line.chars().map(Character::getNumericValue).toArray())
         .toArray(int[][]::new);
 
-      long answer = iterate(0, i -> i < trees.length, i -> i + 1)
-        .mapToLong(i -> iterate(0, j -> j < trees[i].length, j -> j + 1)
-          .filter(j -> isVisible(trees, i, j))
-          .count())
+      long answer = range(0, trees.length)
+        .mapToLong(i -> range(0, trees[i].length).filter(j -> isVisible(trees, i, j)).count())
         .sum();
 
       assertEquals(expected, answer);
@@ -58,10 +55,8 @@ class Day8Test {
         .map(line -> line.chars().map(Character::getNumericValue).toArray())
         .toArray(int[][]::new);
 
-      long answer = iterate(1, i -> i < trees.length - 1, i -> i + 1)
-        .mapToLong(i -> iterate(1, j -> j < trees[i].length - 1, j -> j + 1)
-          .mapToLong(j -> scenicScore(trees, i, j))
-          .max().orElseThrow())
+      long answer = range(1, trees.length - 1)
+        .mapToLong(i -> range(1, trees[i].length - 1).mapToLong(j -> scenicScore(trees, i, j)).max().orElseThrow())
         .max().orElseThrow();
 
       assertEquals(expected, answer);

@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static java.util.stream.LongStream.iterate;
+import static java.util.stream.LongStream.range;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -51,7 +51,7 @@ class Day6Test {
   }
 
   private static long calculateWinningWays(Race race) {
-    return iterate(1, i -> i < race.time(), i -> i + 1)
+    return range(1, race.time())
       .map(speed -> calculateDistance(speed, race.time()))
       .filter(distance -> distance > race.distance())
       .count();
