@@ -4,15 +4,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.math.BigInteger;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Predicate;
-import java.util.stream.LongStream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toMap;
-import static java.util.stream.LongStream.rangeClosed;
 import static java.util.stream.Stream.iterate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -57,22 +55,19 @@ class Day8Test {
       long answer = network.keySet().stream()
         .filter(key -> key.endsWith("A"))
         .mapToLong(startingNode -> requiredSteps(startingNode, node -> node.endsWith("Z"), instructions, network))
-        .flatMap(Day8Test::factors)
-        .distinct()
-        .reduce((left, right) -> left * right)
+        .mapToObj(BigInteger::valueOf)
+        .reduce(Day8Test::lcm)
+        .map(BigInteger::longValue)
         .orElseThrow();
 
       assertEquals(expected, answer);
     }
   }
 
-  private static LongStream factors(long value) {
-    long[] factors = rangeClosed(2, (long) Math.sqrt(value))
-      .filter(i -> value % i == 0)
-      .flatMap(i -> LongStream.of(i, value / i))
-      .toArray();
-
-    return factors.length != 0 ? stream(factors) : LongStream.of(value);
+  private static BigInteger lcm(BigInteger value1, BigInteger value2) {
+    BigInteger gcd = value1.gcd(value2);
+    BigInteger absProduct = value1.multiply(value2).abs();
+    return absProduct.divide(gcd);
   }
 
   private static long requiredSteps(String startNode, Predicate<String> endPredicate, Instructions instructions, Map<String, Destination> network) {
