@@ -117,7 +117,6 @@ class Day19Test {
     @Override
     public String apply(Part part) {
       return rules.stream()
-        .parallel()
         .filter(rule -> rule.test(part))
         .map(Rule::getDestination)
         .findFirst()
