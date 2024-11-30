@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2022;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,7 +12,6 @@ import java.nio.file.Path;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.createDirectory;
 import static java.nio.file.Files.createFile;
 import static java.nio.file.Files.isDirectory;
@@ -32,36 +32,34 @@ class Day7Test {
     "day7-example, 95437",
     "day7, 919137",
   })
-  void part1(String input, int expected) throws IOException {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      Path pwd = root;
+  void part1(@ScanInput Scanner scanner, int expected) throws IOException {
+    Path pwd = root;
 
-      while (scanner.hasNextLine()) {
-        String[] parts = scanner.nextLine().split(" ");
+    while (scanner.hasNextLine()) {
+      String[] parts = scanner.nextLine().split(" ");
 
-        if (parts[0].equals("$")) {
-          if (parts[1].equals("cd") && !parts[2].equals("/")) {
-            pwd = parts[2].equals("..") ? pwd.getParent() : pwd.resolve(parts[2]);
-          }
-        } else {
-          try {
-            int size = parseInt(parts[0]);
-            Path file = createFile(pwd.resolve(parts[1]));
-            write(file, new byte[size]);
-          } catch (NumberFormatException e) {
-            createDirectory(pwd.resolve(parts[1]));
-          }
+      if (parts[0].equals("$")) {
+        if (parts[1].equals("cd") && !parts[2].equals("/")) {
+          pwd = parts[2].equals("..") ? pwd.getParent() : pwd.resolve(parts[2]);
+        }
+      } else {
+        try {
+          int size = parseInt(parts[0]);
+          Path file = createFile(pwd.resolve(parts[1]));
+          write(file, new byte[size]);
+        } catch (NumberFormatException e) {
+          createDirectory(pwd.resolve(parts[1]));
         }
       }
+    }
 
-      try (var content = walk(root)) {
-        long answer = content.filter(Files::isDirectory)
-          .mapToLong(Day7Test::directorySize)
-          .filter(size -> size <= 100000)
-          .sum();
+    try (var content = walk(root)) {
+      long answer = content.filter(Files::isDirectory)
+        .mapToLong(Day7Test::directorySize)
+        .filter(size -> size <= 100000)
+        .sum();
 
-        assertEquals(expected, answer);
-      }
+      assertEquals(expected, answer);
     }
   }
 
@@ -70,39 +68,37 @@ class Day7Test {
     "day7-example, 24933642",
     "day7, 2877389",
   })
-  void part2(String input, int expected) throws IOException {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      Path pwd = root;
+  void part2(@ScanInput Scanner scanner, int expected) throws IOException {
+    Path pwd = root;
 
-      while (scanner.hasNextLine()) {
-        String[] parts = scanner.nextLine().split(" ");
+    while (scanner.hasNextLine()) {
+      String[] parts = scanner.nextLine().split(" ");
 
-        if (parts[0].equals("$")) {
-          if (parts[1].equals("cd") && !parts[2].equals("/")) {
-            pwd = parts[2].equals("..") ? pwd.getParent() : pwd.resolve(parts[2]);
-          }
-        } else {
-          try {
-            int size = parseInt(parts[0]);
-            Path file = createFile(pwd.resolve(parts[1]));
-            write(file, new byte[size]);
-          } catch (NumberFormatException e) {
-            createDirectory(pwd.resolve(parts[1]));
-          }
+      if (parts[0].equals("$")) {
+        if (parts[1].equals("cd") && !parts[2].equals("/")) {
+          pwd = parts[2].equals("..") ? pwd.getParent() : pwd.resolve(parts[2]);
+        }
+      } else {
+        try {
+          int size = parseInt(parts[0]);
+          Path file = createFile(pwd.resolve(parts[1]));
+          write(file, new byte[size]);
+        } catch (NumberFormatException e) {
+          createDirectory(pwd.resolve(parts[1]));
         }
       }
+    }
 
-      long needed = 30000000 - (70000000 - directorySize(root));
+    long needed = 30000000 - (70000000 - directorySize(root));
 
-      try (var content = walk(root)) {
-        long answer = content.filter(Files::isDirectory)
-          .mapToLong(Day7Test::directorySize)
-          .filter(size -> size >= needed)
-          .min()
-          .orElseThrow();
+    try (var content = walk(root)) {
+      long answer = content.filter(Files::isDirectory)
+        .mapToLong(Day7Test::directorySize)
+        .filter(size -> size >= needed)
+        .min()
+        .orElseThrow();
 
-        assertEquals(expected, answer);
-      }
+      assertEquals(expected, answer);
     }
   }
 

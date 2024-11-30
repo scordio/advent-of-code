@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2023;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,7 +14,6 @@ import java.util.regex.Pattern;
 import java.util.stream.LongStream;
 
 import static java.lang.Long.parseLong;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.regex.Pattern.compile;
 import static java.util.stream.LongStream.range;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,31 +30,29 @@ class Day5Test {
     "day5-example1, 35",
     "day5, 323142486",
   })
-  void part1(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8).useDelimiter("\\R\\R")) {
-      long[] seeds = parseSeeds(scanner.next());
+  void part1(@ScanInput(delimiterPattern = "\\R\\R") Scanner scanner, int expected) {
+    long[] seeds = parseSeeds(scanner.next());
 
-      LongUnaryOperator seedToSoil = parseMap(scanner.next());
-      LongUnaryOperator soilToFertilizer = parseMap(scanner.next());
-      LongUnaryOperator fertilizerToWater = parseMap(scanner.next());
-      LongUnaryOperator waterToLight = parseMap(scanner.next());
-      LongUnaryOperator lightToTemperature = parseMap(scanner.next());
-      LongUnaryOperator temperatureToHumidity = parseMap(scanner.next());
-      LongUnaryOperator humidityToLocation = parseMap(scanner.next());
+    LongUnaryOperator seedToSoil = parseMap(scanner.next());
+    LongUnaryOperator soilToFertilizer = parseMap(scanner.next());
+    LongUnaryOperator fertilizerToWater = parseMap(scanner.next());
+    LongUnaryOperator waterToLight = parseMap(scanner.next());
+    LongUnaryOperator lightToTemperature = parseMap(scanner.next());
+    LongUnaryOperator temperatureToHumidity = parseMap(scanner.next());
+    LongUnaryOperator humidityToLocation = parseMap(scanner.next());
 
-      long answer = Arrays.stream(seeds)
-        .map(seedToSoil)
-        .map(soilToFertilizer)
-        .map(fertilizerToWater)
-        .map(waterToLight)
-        .map(lightToTemperature)
-        .map(temperatureToHumidity)
-        .map(humidityToLocation)
-        .min()
-        .orElseThrow();
+    long answer = Arrays.stream(seeds)
+      .map(seedToSoil)
+      .map(soilToFertilizer)
+      .map(fertilizerToWater)
+      .map(waterToLight)
+      .map(lightToTemperature)
+      .map(temperatureToHumidity)
+      .map(humidityToLocation)
+      .min()
+      .orElseThrow();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static long[] parseSeeds(String input) {
@@ -71,31 +69,29 @@ class Day5Test {
     "day5-example1, 46",
     "day5, 79874951",
   })
-  void part2(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8).useDelimiter("\\R\\R")) {
-      LongStream seedStream = parseSeedRange(scanner.next());
+  void part2(@ScanInput(delimiterPattern = "\\R\\R") Scanner scanner, int expected) {
+    LongStream seedStream = parseSeedRange(scanner.next());
 
-      LongUnaryOperator seedToSoil = parseMap(scanner.next());
-      LongUnaryOperator soilToFertilizer = parseMap(scanner.next());
-      LongUnaryOperator fertilizerToWater = parseMap(scanner.next());
-      LongUnaryOperator waterToLight = parseMap(scanner.next());
-      LongUnaryOperator lightToTemperature = parseMap(scanner.next());
-      LongUnaryOperator temperatureToHumidity = parseMap(scanner.next());
-      LongUnaryOperator humidityToLocation = parseMap(scanner.next());
+    LongUnaryOperator seedToSoil = parseMap(scanner.next());
+    LongUnaryOperator soilToFertilizer = parseMap(scanner.next());
+    LongUnaryOperator fertilizerToWater = parseMap(scanner.next());
+    LongUnaryOperator waterToLight = parseMap(scanner.next());
+    LongUnaryOperator lightToTemperature = parseMap(scanner.next());
+    LongUnaryOperator temperatureToHumidity = parseMap(scanner.next());
+    LongUnaryOperator humidityToLocation = parseMap(scanner.next());
 
-      long answer = seedStream.parallel()
-        .map(seedToSoil)
-        .map(soilToFertilizer)
-        .map(fertilizerToWater)
-        .map(waterToLight)
-        .map(lightToTemperature)
-        .map(temperatureToHumidity)
-        .map(humidityToLocation)
-        .min()
-        .orElseThrow();
+    long answer = seedStream.parallel()
+      .map(seedToSoil)
+      .map(soilToFertilizer)
+      .map(fertilizerToWater)
+      .map(waterToLight)
+      .map(lightToTemperature)
+      .map(temperatureToHumidity)
+      .map(humidityToLocation)
+      .min()
+      .orElseThrow();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static LongStream parseSeedRange(String input) {

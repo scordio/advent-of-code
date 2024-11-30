@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2015;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -7,7 +8,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 2: I Was Told There Would Be No Math")
@@ -19,15 +19,13 @@ class Day2Test {
     "day2-example2, 43",
     "day2, 1598415",
   })
-  void part1(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      long answer = scanner.useDelimiter("\\R").tokens()
-        .map(Box::new)
-        .mapToInt(Box::getRequiredPaperFeet)
-        .sum();
+  void part1(@ScanInput Scanner scanner, int expected) {
+    long answer = scanner.tokens()
+      .map(Box::new)
+      .mapToInt(Box::getRequiredPaperFeet)
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   @ParameterizedTest
@@ -36,15 +34,13 @@ class Day2Test {
     "day2-example2, 14",
     "day2, 3812909",
   })
-  void part2(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      long answer = scanner.useDelimiter("\\R").tokens()
-        .map(Box::new)
-        .mapToInt(Box::getRequiredRibbonFeet)
-        .sum();
+  void part2(@ScanInput Scanner scanner, int expected) {
+    long answer = scanner.tokens()
+      .map(Box::new)
+      .mapToInt(Box::getRequiredRibbonFeet)
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   static class Box {

@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2022;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -10,7 +11,6 @@ import java.util.function.IntPredicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.stream;
 import static java.util.stream.IntStream.range;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,18 +23,16 @@ class Day8Test {
     "day8-example, 21",
     "day8, 1832",
   })
-  void part1(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      int[][] trees = scanner.useDelimiter("\\R").tokens()
-        .map(line -> line.chars().map(Character::getNumericValue).toArray())
-        .toArray(int[][]::new);
+  void part1(@ScanInput Scanner scanner, int expected) {
+    int[][] trees = scanner.tokens()
+      .map(line -> line.chars().map(Character::getNumericValue).toArray())
+      .toArray(int[][]::new);
 
-      long answer = range(0, trees.length)
-        .mapToLong(i -> range(0, trees[i].length).filter(j -> isVisible(trees, i, j)).count())
-        .sum();
+    long answer = range(0, trees.length)
+      .mapToLong(i -> range(0, trees[i].length).filter(j -> isVisible(trees, i, j)).count())
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static boolean isVisible(int[][] trees, int i, int j) {
@@ -49,18 +47,16 @@ class Day8Test {
     "day8-example, 8",
     "day8, 157320",
   })
-  void part2(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      int[][] trees = scanner.useDelimiter("\\R").tokens()
-        .map(line -> line.chars().map(Character::getNumericValue).toArray())
-        .toArray(int[][]::new);
+  void part2(@ScanInput Scanner scanner, int expected) {
+    int[][] trees = scanner.tokens()
+      .map(line -> line.chars().map(Character::getNumericValue).toArray())
+      .toArray(int[][]::new);
 
-      long answer = range(1, trees.length - 1)
-        .mapToLong(i -> range(1, trees[i].length - 1).mapToLong(j -> scenicScore(trees, i, j)).max().orElseThrow())
-        .max().orElseThrow();
+    long answer = range(1, trees.length - 1)
+      .mapToLong(i -> range(1, trees[i].length - 1).mapToLong(j -> scenicScore(trees, i, j)).max().orElseThrow())
+      .max().orElseThrow();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static long scenicScore(int[][] trees, int i, int j) {

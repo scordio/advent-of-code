@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2022;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -8,7 +9,6 @@ import java.util.BitSet;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 4: Camp Cleanup")
@@ -19,15 +19,13 @@ class Day4Test {
     "day4-example, 2",
     "day4, 524",
   })
-  void part1(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      long answer = scanner.useDelimiter("\\R").tokens()
-        .map(RangePair::new)
-        .filter(RangePair::isOneFullyContained)
-        .count();
+  void part1(@ScanInput Scanner scanner, int expected) {
+    long answer = scanner.tokens()
+      .map(RangePair::new)
+      .filter(RangePair::isOneFullyContained)
+      .count();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   @ParameterizedTest
@@ -35,15 +33,13 @@ class Day4Test {
     "day4-example, 4",
     "day4, 798",
   })
-  void part2(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      long answer = scanner.useDelimiter("\\R").tokens()
-        .map(RangePair::new)
-        .filter(RangePair::areOverlapping)
-        .count();
+  void part2(@ScanInput Scanner scanner, int expected) {
+    long answer = scanner.tokens()
+      .map(RangePair::new)
+      .filter(RangePair::areOverlapping)
+      .count();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   static class RangePair {

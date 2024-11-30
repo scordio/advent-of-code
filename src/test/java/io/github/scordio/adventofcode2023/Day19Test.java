@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2023;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,7 +14,6 @@ import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.function.Function.identity;
 import static java.util.regex.Pattern.compile;
 import static java.util.stream.Collectors.toMap;
@@ -27,18 +27,16 @@ class Day19Test {
     "day19-example1, 19114",
     "day19, 367602",
   })
-  void part1(String input, long expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8).useDelimiter("\\R\\R")) {
-      Workflows workflows = parseWorkflows(scanner.next());
-      List<Part> parts = parseParts(scanner.next());
+  void part1(@ScanInput(delimiterPattern = "\\R\\R") Scanner scanner, long expected) {
+    Workflows workflows = parseWorkflows(scanner.next());
+    List<Part> parts = parseParts(scanner.next());
 
-      long answer = parts.stream()
-        .filter(workflows::accept)
-        .mapToLong(part -> part.x() + part.m() + part.a() + part.s())
-        .sum();
+    long answer = parts.stream()
+      .filter(workflows::accept)
+      .mapToLong(part -> part.x() + part.m() + part.a() + part.s())
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   @Disabled("not implemented")
@@ -47,14 +45,12 @@ class Day19Test {
     "day19-example1, 167409079868000",
     "day19, -1",
   })
-  void part2(String input, long expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8).useDelimiter("\\R\\R")) {
-      Workflows workflows = parseWorkflows(scanner.next());
+  void part2(@ScanInput(delimiterPattern = "\\R\\R") Scanner scanner, long expected) {
+    Workflows workflows = parseWorkflows(scanner.next());
 
-      long answer = 0;
+    long answer = 0;
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static Workflows parseWorkflows(String input) {

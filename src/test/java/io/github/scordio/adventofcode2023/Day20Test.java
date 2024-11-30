@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2023;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,7 +17,6 @@ import java.util.function.Supplier;
 import java.util.regex.MatchResult;
 import java.util.stream.Stream;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.IntStream.range;
@@ -31,18 +31,16 @@ class Day20Test {
     "day20-example2, 11687500",
     "day20, 898731036",
   })
-  void part1(String input, long expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      Modules modules = new Modules();
+  void part1(@ScanInput Scanner scanner, long expected) {
+    Modules modules = new Modules();
 
-      scanner.findAll("(.+) -> (.+)").forEach(modules::addModule);
+    scanner.findAll("(.+) -> (.+)").forEach(modules::addModule);
 
-      range(0, 1000).forEach(__ -> modules.pushButton());
+    range(0, 1000).forEach(__ -> modules.pushButton());
 
-      long answer = modules.getLowPulsesCount() * modules.getHighPulsesCount();
+    long answer = modules.getLowPulsesCount() * modules.getHighPulsesCount();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   @Disabled("not implemented")
@@ -50,16 +48,14 @@ class Day20Test {
   @CsvSource({
     "day20, -1",
   })
-  void part2(String input, long expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      Modules modules = new Modules();
+  void part2(@ScanInput Scanner scanner, long expected) {
+    Modules modules = new Modules();
 
-      scanner.findAll("(.+) -> (.+)").forEach(modules::addModule);
+    scanner.findAll("(.+) -> (.+)").forEach(modules::addModule);
 
-      long answer = 0;
+    long answer = 0;
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static class Modules {

@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2015;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -9,7 +10,6 @@ import java.util.Scanner;
 import java.util.stream.Stream;
 
 import static java.lang.Integer.parseInt;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 6: Probably a Fire Hazard")
@@ -22,20 +22,18 @@ class Day6Test {
     "day6-example3, 999_996",
     "day6, 377891",
   })
-  void part1(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      int[][] lights = new int[1000][1000];
+  void part1(@ScanInput Scanner scanner, int expected) {
+    int[][] lights = new int[1000][1000];
 
-      scanner.useDelimiter("\\R").tokens()
-        .map(Command::new)
-        .forEach(command -> command.power(lights));
+    scanner.tokens()
+      .map(Command::new)
+      .forEach(command -> command.power(lights));
 
-      long answer = Stream.of(lights)
-        .flatMapToInt(Arrays::stream)
-        .sum();
+    long answer = Stream.of(lights)
+      .flatMapToInt(Arrays::stream)
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   @ParameterizedTest
@@ -44,20 +42,18 @@ class Day6Test {
     "day6-example5, 2_000_000",
     "day6, 14110788",
   })
-  void part2(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      int[][] lights = new int[1000][1000];
+  void part2(@ScanInput Scanner scanner, int expected) {
+    int[][] lights = new int[1000][1000];
 
-      scanner.useDelimiter("\\R").tokens()
-        .map(Command::new)
-        .forEach(command -> command.brightness(lights));
+    scanner.tokens()
+      .map(Command::new)
+      .forEach(command -> command.brightness(lights));
 
-      long answer = Stream.of(lights)
-        .flatMapToInt(Arrays::stream)
-        .sum();
+    long answer = Stream.of(lights)
+      .flatMapToInt(Arrays::stream)
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static class Command {

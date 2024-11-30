@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2023;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -10,7 +11,6 @@ import java.util.Scanner;
 import java.util.regex.MatchResult;
 
 import static java.lang.Integer.parseInt;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.IntStream.range;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,18 +22,16 @@ class Day18Test {
     "day18-example1, 62",
     "day18, 36679",
   })
-  void part1(String input, long expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      Lagoon lagoon = new Lagoon();
+  void part1(@ScanInput Scanner scanner, long expected) {
+    Lagoon lagoon = new Lagoon();
 
-      scanner.findAll("(\\w) (\\d+) \\((#\\w+)\\)")
-        .map(Instruction::new)
-        .forEach(lagoon::dig);
+    scanner.findAll("(\\w) (\\d+) \\((#\\w+)\\)")
+      .map(Instruction::new)
+      .forEach(lagoon::dig);
 
-      long answer = lagoon.getArea();
+    long answer = lagoon.getArea();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   @ParameterizedTest
@@ -41,18 +39,16 @@ class Day18Test {
     "day18-example1, 952408144115",
     "day18, 88007104020978",
   })
-  void part2(String input, long expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8).useDelimiter("\\R")) {
-      Lagoon lagoon = new Lagoon();
+  void part2(@ScanInput Scanner scanner, long expected) {
+    Lagoon lagoon = new Lagoon();
 
-      scanner.findAll("(\\w) (\\d+) \\((#\\w+)\\)")
-        .map(Instruction::fromHex)
-        .forEach(lagoon::dig);
+    scanner.findAll("(\\w) (\\d+) \\((#\\w+)\\)")
+      .map(Instruction::fromHex)
+      .forEach(lagoon::dig);
 
-      long answer = lagoon.getArea();
+    long answer = lagoon.getArea();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static class Lagoon {

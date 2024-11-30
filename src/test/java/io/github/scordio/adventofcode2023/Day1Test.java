@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2023;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -9,7 +10,6 @@ import java.util.function.ToIntFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.regex.Pattern.compile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,7 +23,7 @@ class Day1Test {
     "day1-example1, 142",
     "day1, 54644",
   })
-  void part1(String input, int expected) {
+  void part1(@ScanInput Scanner scanner, int expected) {
     ToIntFunction<String> toCalibrationValue = value -> {
       int[] digits = value.chars()
         .filter(Character::isDigit)
@@ -33,13 +33,12 @@ class Day1Test {
       return digits[0] * 10 + digits[digits.length - 1];
     };
 
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      long answer = scanner.useDelimiter("\\R").tokens()
-        .mapToInt(toCalibrationValue)
-        .sum();
+    long answer = scanner.tokens()
+      .mapToInt(toCalibrationValue)
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
+
   }
 
   @ParameterizedTest
@@ -48,16 +47,14 @@ class Day1Test {
     "day1-example3, 31",
     "day1, 53348",
   })
-  void part2(String input, int expected) {
+  void part2(@ScanInput Scanner scanner, int expected) {
     ToIntFunction<String> toCalibrationValue = value -> getFirst(value) * 10 + getLast(value);
 
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      long answer = scanner.useDelimiter("\\R").tokens()
-        .mapToInt(toCalibrationValue)
-        .sum();
+    long answer = scanner.tokens()
+      .mapToInt(toCalibrationValue)
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static int getFirst(String value) {

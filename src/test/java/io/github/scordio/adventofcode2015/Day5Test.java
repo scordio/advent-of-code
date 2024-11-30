@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2015;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -7,7 +8,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.regex.Pattern.compile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,14 +27,12 @@ class Day5Test {
     "day5-example5, 0",
     "day5, 238",
   })
-  void part1(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      long answer = scanner.useDelimiter("\\R").tokens()
-        .filter(HAS_THREE_VOWELS.and(HAS_DOUBLE_LETTER).and(DOES_NOT_HAVE_FORBIDDEN_STRINGS))
-        .count();
+  void part1(@ScanInput Scanner scanner, int expected) {
+    long answer = scanner.tokens()
+      .filter(HAS_THREE_VOWELS.and(HAS_DOUBLE_LETTER).and(DOES_NOT_HAVE_FORBIDDEN_STRINGS))
+      .count();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static final Predicate<String> HAS_PAIR_TWICE_WITHOUT_OVERLAPPING = compile(".*(..).*\\1.*").asMatchPredicate();
@@ -48,14 +46,12 @@ class Day5Test {
     "day5-example9, 0",
     "day5, 69",
   })
-  void part2(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      long answer = scanner.useDelimiter("\\R").tokens()
-        .filter(HAS_PAIR_TWICE_WITHOUT_OVERLAPPING.and(HAS_LETTER_TWICE_WITH_ONE_IN_BETWEEN))
-        .count();
+  void part2(@ScanInput Scanner scanner, int expected) {
+    long answer = scanner.tokens()
+      .filter(HAS_PAIR_TWICE_WITHOUT_OVERLAPPING.and(HAS_LETTER_TWICE_WITH_ONE_IN_BETWEEN))
+      .count();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
 }

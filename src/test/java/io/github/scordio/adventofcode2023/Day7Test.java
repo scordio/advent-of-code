@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2023;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -13,7 +14,6 @@ import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparingInt;
 import static java.util.Comparator.reverseOrder;
 import static java.util.function.Function.identity;
@@ -33,19 +33,17 @@ class Day7Test {
     "day7-example1, 6440",
     "day7, 248217452",
   })
-  void part1(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      List<Hand> hands = scanner.findAll(PATTERN)
-        .map(result -> new Hand(result, false))
-        .sorted(reverseOrder())
-        .toList();
+  void part1(@ScanInput Scanner scanner, int expected) {
+    List<Hand> hands = scanner.findAll(PATTERN)
+      .map(result -> new Hand(result, false))
+      .sorted(reverseOrder())
+      .toList();
 
-      long answer = range(0, hands.size())
-        .map(rank -> hands.get(rank).getWinnings(rank + 1))
-        .sum();
+    long answer = range(0, hands.size())
+      .map(rank -> hands.get(rank).getWinnings(rank + 1))
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   @ParameterizedTest
@@ -53,19 +51,17 @@ class Day7Test {
     "day7-example1, 5905",
     "day7, 245576185",
   })
-  void part2(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      List<? extends Hand> hands = scanner.findAll(PATTERN)
-        .map(result -> new Hand(result, true))
-        .sorted(reverseOrder())
-        .toList();
+  void part2(@ScanInput Scanner scanner, int expected) {
+    List<? extends Hand> hands = scanner.findAll(PATTERN)
+      .map(result -> new Hand(result, true))
+      .sorted(reverseOrder())
+      .toList();
 
-      long answer = range(0, hands.size())
-        .map(rank -> hands.get(rank).getWinnings(rank + 1))
-        .sum();
+    long answer = range(0, hands.size())
+      .map(rank -> hands.get(rank).getWinnings(rank + 1))
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static class Hand implements Comparable<Hand> {

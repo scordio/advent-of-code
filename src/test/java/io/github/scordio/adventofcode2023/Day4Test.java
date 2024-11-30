@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2023;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,7 +16,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static java.lang.Integer.parseInt;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.regex.Pattern.compile;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Stream.iterate;
@@ -29,15 +29,13 @@ class Day4Test {
     "day4-example1, 13",
     "day4, 26914",
   })
-  void part1(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      long answer = scanner.useDelimiter("\\R").tokens()
-        .map(Card::new)
-        .mapToInt(Card::getCardValue)
-        .sum();
+  void part1(@ScanInput Scanner scanner, int expected) {
+    long answer = scanner.tokens()
+      .map(Card::new)
+      .mapToInt(Card::getCardValue)
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   @Disabled("Slow execution")
@@ -46,18 +44,16 @@ class Day4Test {
     "day4-example1, 30",
     "day4, 13080971",
   })
-  void part2(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      List<Card> cards = scanner.useDelimiter("\\R").tokens()
-        .map(Card::new)
-        .toList();
+  void part2(@ScanInput Scanner scanner, int expected) {
+    List<Card> cards = scanner.tokens()
+      .map(Card::new)
+      .toList();
 
-      long answer = cards.stream()
-        .flatMap(card -> expandCopies(card, cards))
-        .count();
+    long answer = cards.stream()
+      .flatMap(card -> expandCopies(card, cards))
+      .count();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static Stream<Card> expandCopies(Card card, List<Card> cards) {

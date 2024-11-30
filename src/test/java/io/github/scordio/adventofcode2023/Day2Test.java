@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2023;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -13,7 +14,6 @@ import java.util.stream.Stream;
 
 import static java.lang.Integer.max;
 import static java.lang.Integer.parseInt;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.regex.Pattern.compile;
 import static java.util.stream.Collectors.toMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,16 +26,14 @@ class Day2Test {
     "day2-example1, 8",
     "day2, 2149",
   })
-  void part1(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      long answer = scanner.useDelimiter("\\R").tokens()
-        .map(Game::new)
-        .filter(game -> game.isPossible("12 red, 13 green, 14 blue"))
-        .mapToInt(Game::getId)
-        .sum();
+  void part1(@ScanInput Scanner scanner, int expected) {
+    long answer = scanner.tokens()
+      .map(Game::new)
+      .filter(game -> game.isPossible("12 red, 13 green, 14 blue"))
+      .mapToInt(Game::getId)
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   @ParameterizedTest
@@ -43,15 +41,13 @@ class Day2Test {
     "day2-example1, 2286",
     "day2, 71274",
   })
-  void part2(String input, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      long answer = scanner.useDelimiter("\\R").tokens()
-        .map(Game::new)
-        .mapToInt(Game::getPower)
-        .sum();
+  void part2(@ScanInput Scanner scanner, int expected) {
+    long answer = scanner.tokens()
+      .map(Game::new)
+      .mapToInt(Game::getPower)
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static class Game {

@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2023;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,7 +16,6 @@ import java.util.regex.MatchResult;
 import static java.lang.Long.parseLong;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.IntStream.range;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,20 +27,18 @@ class Day24Test {
     "day24-example1, 7, 27, 2",
     "day24, 200000000000000, 400000000000000, 16939",
   })
-  void part1(String input, long min, long max, long expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      List<Line2D> paths = scanner.findAll("(\\d+), (\\d+), (\\d+) @\\s+(-?\\d+),\\s+(-?\\d+),\\s(-?\\d+)")
-        .map(Hailstone::new)
-        .map(hailstone -> hailstone.getPath(min, max))
-        .filter(Objects::nonNull)
-        .toList();
+  void part1(@ScanInput Scanner scanner, long min, long max, long expected) {
+    List<Line2D> paths = scanner.findAll("(\\d+), (\\d+), (\\d+) @\\s+(-?\\d+),\\s+(-?\\d+),\\s(-?\\d+)")
+      .map(Hailstone::new)
+      .map(hailstone -> hailstone.getPath(min, max))
+      .filter(Objects::nonNull)
+      .toList();
 
-      long answer = range(0, paths.size())
-        .flatMap(i -> range(i + 1, paths.size()).filter(j -> paths.get(i).intersectsLine(paths.get(j))))
-        .count();
+    long answer = range(0, paths.size())
+      .flatMap(i -> range(i + 1, paths.size()).filter(j -> paths.get(i).intersectsLine(paths.get(j))))
+      .count();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   @Disabled("not implemented")
@@ -49,12 +47,10 @@ class Day24Test {
     "day24-example1, 47",
     "day24, -1",
   })
-  void part2(String input, long expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      long answer = 0;
+  void part2(@ScanInput Scanner scanner, long expected) {
+    long answer = 0;
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static class Hailstone {

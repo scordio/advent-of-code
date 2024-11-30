@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2023;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -14,7 +15,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static java.lang.Integer.compare;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.function.Function.identity;
 import static java.util.regex.Pattern.compile;
 import static java.util.stream.Collectors.toMap;
@@ -31,24 +31,22 @@ class Day3Test {
     "day3-example1, 11, 4361",
     "day3, 141, 517021",
   })
-  void part1(String input, int lineLength, int expected) {
+  void part1(@ScanInput Scanner scanner, int lineLength, int expected) {
+    // workaround to force scanner buffer increase - see Scanner.BUFFER_SIZE
+    scanner.useDelimiter("(?s).*").hasNext();
 
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      scanner.useDelimiter("(?s).*").hasNext(); // workaround to force scanner buffer increase - see Scanner.BUFFER_SIZE
+    Map<Position, Element> elements = scanner.findAll(PATTERN)
+      .map(result -> new Element(
+        new Position(result.start() / lineLength, result.start() % lineLength),
+        result.group()))
+      .collect(toMap(Element::getPosition, identity()));
 
-      Map<Position, Element> elements = scanner.findAll(PATTERN)
-        .map(result -> new Element(
-          new Position(result.start() / lineLength, result.start() % lineLength),
-          result.group()))
-        .collect(toMap(Element::getPosition, identity()));
+    long answer = elements.values().stream()
+      .filter(element -> isPartNumber(element, elements))
+      .mapToInt(Element::getNumber)
+      .sum();
 
-      long answer = elements.values().stream()
-        .filter(element -> isPartNumber(element, elements))
-        .mapToInt(Element::getNumber)
-        .sum();
-
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static boolean isPartNumber(Element element, Map<Position, Element> elements) {
@@ -66,22 +64,21 @@ class Day3Test {
     "day3-example2, 10, 276168",
     "day3, 141, 81296995",
   })
-  void part2(String input, int lineLength, int expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      scanner.useDelimiter("(?s).*").hasNext(); // workaround to force scanner buffer increase - see Scanner.BUFFER_SIZE
+  void part2(@ScanInput Scanner scanner, int lineLength, int expected) {
+    // workaround to force scanner buffer increase - see Scanner.BUFFER_SIZE
+    scanner.useDelimiter("(?s).*").hasNext();
 
-      Map<Position, Element> elements = scanner.findAll(PATTERN)
-        .map(result -> new Element(
-          new Position(result.start() / lineLength, result.start() % lineLength),
-          result.group()))
-        .collect(toMap(Element::getPosition, identity()));
+    Map<Position, Element> elements = scanner.findAll(PATTERN)
+      .map(result -> new Element(
+        new Position(result.start() / lineLength, result.start() % lineLength),
+        result.group()))
+      .collect(toMap(Element::getPosition, identity()));
 
-      long answer = elements.values().stream()
-        .mapToInt(element -> getGearRatio(element, elements))
-        .sum();
+    long answer = elements.values().stream()
+      .mapToInt(element -> getGearRatio(element, elements))
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static int getGearRatio(Element element, Map<Position, Element> elements) {

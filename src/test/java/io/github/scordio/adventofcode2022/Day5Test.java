@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2022;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -12,7 +13,6 @@ import java.util.Scanner;
 import java.util.stream.Stream;
 
 import static java.lang.Integer.parseInt;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.IntStream.range;
@@ -43,29 +43,27 @@ class Day5Test {
 
   @ParameterizedTest
   @MethodSource
-  void part1(String input, String expected, List<Deque<String>> stacks) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
+  void part1(@ScanInput Scanner scanner, String expected, List<Deque<String>> stacks) {
+    while (scanner.hasNextLine()) {
+      String line = scanner.nextLine();
 
-        if (!line.startsWith("move")) continue;
+      if (!line.startsWith("move")) continue;
 
-        String[] parts = line.substring(5).split(" from | to ");
-        int quantity = parseInt(parts[0]);
-        Deque<String> from = stacks.get(parseInt(parts[1]) - 1);
-        Deque<String> to = stacks.get(parseInt(parts[2]) - 1);
+      String[] parts = line.substring(5).split(" from | to ");
+      int quantity = parseInt(parts[0]);
+      Deque<String> from = stacks.get(parseInt(parts[1]) - 1);
+      Deque<String> to = stacks.get(parseInt(parts[2]) - 1);
 
-        range(0, quantity)
-          .mapToObj(i -> from.removeFirst())
-          .forEach(to::addFirst);
-      }
-
-      String answer = stacks.stream()
-        .map(Deque::peek)
-        .collect(joining());
-
-      assertEquals(expected, answer);
+      range(0, quantity)
+        .mapToObj(i -> from.removeFirst())
+        .forEach(to::addFirst);
     }
+
+    String answer = stacks.stream()
+      .map(Deque::peek)
+      .collect(joining());
+
+    assertEquals(expected, answer);
   }
 
   static Stream<Arguments> part2() {
@@ -89,31 +87,29 @@ class Day5Test {
 
   @ParameterizedTest
   @MethodSource
-  void part2(String input, String expected, List<Deque<String>> stacks) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8)) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
+  void part2(@ScanInput Scanner scanner, String expected, List<Deque<String>> stacks) {
+    while (scanner.hasNextLine()) {
+      String line = scanner.nextLine();
 
-        if (!line.startsWith("move")) continue;
+      if (!line.startsWith("move")) continue;
 
-        String[] parts = line.substring(5).split(" from | to ");
-        int quantity = parseInt(parts[0]);
-        Deque<String> from = stacks.get(parseInt(parts[1]) - 1);
-        Deque<String> to = stacks.get(parseInt(parts[2]) - 1);
+      String[] parts = line.substring(5).split(" from | to ");
+      int quantity = parseInt(parts[0]);
+      Deque<String> from = stacks.get(parseInt(parts[1]) - 1);
+      Deque<String> to = stacks.get(parseInt(parts[2]) - 1);
 
-        range(0, quantity)
-          .mapToObj(i -> from.removeFirst())
-          .collect(toCollection(ArrayDeque::new))
-          .descendingIterator()
-          .forEachRemaining(to::addFirst);
-      }
-
-      String answer = stacks.stream()
-        .map(Deque::peek)
-        .collect(joining());
-
-      assertEquals(expected, answer);
+      range(0, quantity)
+        .mapToObj(i -> from.removeFirst())
+        .collect(toCollection(ArrayDeque::new))
+        .descendingIterator()
+        .forEachRemaining(to::addFirst);
     }
+
+    String answer = stacks.stream()
+      .map(Deque::peek)
+      .collect(joining());
+
+    assertEquals(expected, answer);
   }
 
 }

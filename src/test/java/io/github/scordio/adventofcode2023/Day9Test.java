@@ -1,5 +1,6 @@
 package io.github.scordio.adventofcode2023;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -8,7 +9,6 @@ import java.util.Scanner;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.stream;
 import static java.util.regex.Pattern.compile;
 import static java.util.stream.IntStream.range;
@@ -23,15 +23,13 @@ class Day9Test {
     "day9-example1, 114",
     "day9, 2175229206",
   })
-  void part1(String input, long expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8).useDelimiter("\\R")) {
-      long answer = scanner.tokens()
-        .map(History::new)
-        .mapToLong(History::predictNextValue)
-        .sum();
+  void part1(@ScanInput Scanner scanner, long expected) {
+    long answer = scanner.tokens()
+      .map(History::new)
+      .mapToLong(History::predictNextValue)
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   @ParameterizedTest
@@ -39,15 +37,13 @@ class Day9Test {
     "day9-example1, 2",
     "day9, 942",
   })
-  void part2(String input, long expected) {
-    try (var scanner = new Scanner(getClass().getResourceAsStream(input), UTF_8).useDelimiter("\\R")) {
-      long answer = scanner.tokens()
-        .map(History::new)
-        .mapToLong(History::predictPreviousValue)
-        .sum();
+  void part2(@ScanInput Scanner scanner, long expected) {
+    long answer = scanner.tokens()
+      .map(History::new)
+      .mapToLong(History::predictPreviousValue)
+      .sum();
 
-      assertEquals(expected, answer);
-    }
+    assertEquals(expected, answer);
   }
 
   private static class History {

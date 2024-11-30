@@ -1,19 +1,24 @@
 package io.github.scordio.adventofcode2022;
 
+import io.github.scordio.ScanInput;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Scanner;
 import java.util.function.ToIntFunction;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 2: Rock Paper Scissors")
 class Day2Test {
 
-  @Test
-  void part1() {
+  @ParameterizedTest
+  @CsvSource({
+    "day2-example, 15",
+    "day2, 15572",
+  })
+  void part1(@ScanInput Scanner scanner, int expected) {
     ToIntFunction<String> scores = line -> switch (line) {
       case "A X" -> 4;
       case "A Y" -> 8;
@@ -27,17 +32,19 @@ class Day2Test {
       default -> throw new IllegalArgumentException(line);
     };
 
-    try (var scanner = new Scanner(getClass().getResourceAsStream("day2"), UTF_8)) {
-      int answer = scanner.useDelimiter("\\R").tokens()
-        .mapToInt(scores)
-        .sum();
+    int answer = scanner.tokens()
+      .mapToInt(scores)
+      .sum();
 
-      assertEquals(15572, answer);
-    }
+    assertEquals(expected, answer);
   }
 
-  @Test
-  void part2() {
+  @ParameterizedTest
+  @CsvSource({
+    "day2-example, 12",
+    "day2, 16098",
+  })
+  void part2(@ScanInput Scanner scanner, int expected) {
     ToIntFunction<String> scores = line -> switch (line) {
       case "A X" -> 3;
       case "A Y" -> 4;
@@ -51,13 +58,11 @@ class Day2Test {
       default -> throw new IllegalArgumentException(line);
     };
 
-    try (var scanner = new Scanner(getClass().getResourceAsStream("day2"), UTF_8)) {
-      int answer = scanner.useDelimiter("\\R").tokens()
-        .mapToInt(scores)
-        .sum();
+    int answer = scanner.tokens()
+      .mapToInt(scores)
+      .sum();
 
-      assertEquals(16098, answer);
-    }
+    assertEquals(expected, answer);
   }
 
 }
