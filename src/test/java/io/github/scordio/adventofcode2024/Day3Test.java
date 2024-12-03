@@ -7,10 +7,10 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.BiConsumer;
-import java.util.function.IntConsumer;
+import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 import java.util.regex.MatchResult;
+import java.util.stream.Gatherer;
 
 import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -41,23 +41,39 @@ class Day3Test {
   })
   void part2(@ScanInput Scanner scanner, int expected) {
     long answer = scanner.findAll(INSTRUCTIONS_PATTERN)
-      .mapMultiToInt(ifEnabled(Day3Test::multiply))
+      .gather(whenEnabled(Day3Test::multiply))
+      .mapToInt(Integer::intValue)
       .sum();
 
     assertEquals(expected, answer);
   }
 
-  private static BiConsumer<MatchResult, IntConsumer> ifEnabled(ToIntFunction<MatchResult> delegate) {
-    AtomicBoolean enabled = new AtomicBoolean(true);
-    return (result, consumer) -> {
-      if (result.group().equals("do()")) {
-        enabled.set(true);
-      } else if (result.group().equals("don't()")) {
-        enabled.set(false);
-      } else if (enabled.get()) {
-        consumer.accept(delegate.applyAsInt(result));
-      }
-    };
+  private static WhenEnabledGatherer whenEnabled(ToIntFunction<MatchResult> delegate) {
+    return new WhenEnabledGatherer(delegate);
+  }
+
+  private record WhenEnabledGatherer(ToIntFunction<MatchResult> delegate)
+    implements Gatherer<MatchResult, AtomicBoolean, Integer> {
+
+    @Override
+    public Supplier<AtomicBoolean> initializer() {
+      return () -> new AtomicBoolean(true);
+    }
+
+    @Override
+    public Integrator<AtomicBoolean, MatchResult, Integer> integrator() {
+      return (enabled, result, downstream) -> {
+        if ("do()".equals(result.group())) {
+          enabled.set(true);
+        } else if ("don't()".equals(result.group())) {
+          enabled.set(false);
+        } else if (enabled.get()) {
+          return downstream.push(delegate.applyAsInt(result));
+        }
+        return true;
+      };
+    }
+
   }
 
   private static int multiply(MatchResult result) {
