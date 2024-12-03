@@ -7,7 +7,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 import java.util.regex.MatchResult;
 import java.util.stream.Gatherer;
@@ -48,21 +47,10 @@ class Day3Test {
     assertEquals(expected, answer);
   }
 
-  private static WhenEnabledGatherer whenEnabled(ToIntFunction<MatchResult> delegate) {
-    return new WhenEnabledGatherer(delegate);
-  }
-
-  private record WhenEnabledGatherer(ToIntFunction<MatchResult> delegate)
-    implements Gatherer<MatchResult, AtomicBoolean, Integer> {
-
-    @Override
-    public Supplier<AtomicBoolean> initializer() {
-      return () -> new AtomicBoolean(true);
-    }
-
-    @Override
-    public Integrator<AtomicBoolean, MatchResult, Integer> integrator() {
-      return (enabled, result, downstream) -> {
+  private static Gatherer<MatchResult, AtomicBoolean, Integer> whenEnabled(ToIntFunction<MatchResult> delegate) {
+    return Gatherer.ofSequential(
+      () -> new AtomicBoolean(true),
+      (enabled, result, downstream) -> {
         if ("do()".equals(result.group())) {
           enabled.set(true);
         } else if ("don't()".equals(result.group())) {
@@ -71,9 +59,8 @@ class Day3Test {
           return downstream.push(delegate.applyAsInt(result));
         }
         return true;
-      };
-    }
-
+      }
+    );
   }
 
   private static int multiply(MatchResult result) {
