@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.function.LongUnaryOperator;
 import java.util.regex.MatchResult;
@@ -14,6 +13,7 @@ import java.util.regex.Pattern;
 import java.util.stream.LongStream;
 
 import static java.lang.Long.parseLong;
+import static java.util.Arrays.stream;
 import static java.util.regex.Pattern.compile;
 import static java.util.stream.LongStream.range;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -41,7 +41,7 @@ class Day5Test {
     LongUnaryOperator temperatureToHumidity = parseMap(scanner.next());
     LongUnaryOperator humidityToLocation = parseMap(scanner.next());
 
-    long answer = Arrays.stream(seeds)
+    long answer = stream(seeds)
       .map(seedToSoil)
       .map(soilToFertilizer)
       .map(fertilizerToWater)

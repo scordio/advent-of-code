@@ -24,13 +24,13 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Target(PARAMETER)
 @Retention(RUNTIME)
-@ConvertWith(ScanInput.InputToScannerConverter.class)
-@ExtendWith(ScanInput.InputToScannerConverter.class)
+@ConvertWith(ScanInput.InputToScannerArgumentConverter.class)
+@ExtendWith(ScanInput.InputToScannerArgumentConverter.class)
 public @interface ScanInput {
 
   String delimiterPattern() default "\\R";
 
-  class InputToScannerConverter implements ArgumentConverter, AnnotationConsumer<ScanInput>, InvocationInterceptor {
+  class InputToScannerArgumentConverter implements ArgumentConverter, AnnotationConsumer<ScanInput>, InvocationInterceptor {
 
     private ScanInput annotation;
 
