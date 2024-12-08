@@ -8,10 +8,14 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Gatherer;
 
+import static java.lang.Boolean.TRUE;
 import static java.lang.Integer.signum;
 import static java.lang.Math.abs;
 import static java.util.Arrays.stream;
+import static java.util.stream.Gatherers.windowSliding;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 2: Red-Nosed Reports")
@@ -54,25 +58,29 @@ class Day2Test {
     }
 
     boolean isSafe() {
-      int difference = levels.get(1) - levels.get(0);
-      int abs = abs(difference);
+      return levels.stream()
+        .gather(windowSliding(2))
+        .gather(matchingRules())
+        .allMatch(TRUE::equals);
+    }
 
-      if (abs < 1 || abs > 3) {
-        return false;
-      }
+    private static Gatherer<List<Integer>, AtomicInteger, Boolean> matchingRules() {
+      return Gatherer.ofSequential(
+        AtomicInteger::new,
+        (state, pair, downstream) -> {
+          int difference = pair.get(1) - pair.get(0);
+          int abs = abs(difference);
 
-      int signum = signum(difference);
+          if (abs < 1 || abs > 3) {
+            return downstream.push(false);
+          }
 
-      for (int i = 1; i < levels.size() - 1; i++) {
-        int nextDifference = levels.get(i + 1) - levels.get(i);
-        int nextAbs = abs(nextDifference);
+          int signum = signum(difference);
 
-        if (signum != signum(nextDifference) || nextAbs < 1 || nextAbs > 3) {
-          return false;
-        }
-      }
-
-      return true;
+          return state.compareAndSet(0, signum)
+            ? downstream.push(true)
+            : downstream.push(state.get() == signum);
+        });
     }
 
   }
