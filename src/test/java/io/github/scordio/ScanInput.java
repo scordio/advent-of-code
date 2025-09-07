@@ -1,6 +1,5 @@
 package io.github.scordio;
 
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -25,7 +24,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @Target(PARAMETER)
 @Retention(RUNTIME)
 @ConvertWith(ScanInput.InputToScannerArgumentConverter.class)
-@ExtendWith(ScanInput.InputToScannerArgumentConverter.class)
 public @interface ScanInput {
 
   String delimiterPattern() default "\\R";
