@@ -82,7 +82,7 @@ class Day2Test {
         .allMatch(TRUE::equals);
     }
 
-    private static Gatherer<List<Integer>, AtomicInteger, Boolean> matchingRules() {
+    private static Gatherer<List<Integer>, ?, Boolean> matchingRules() {
       return Gatherer.ofSequential(
         AtomicInteger::new,
         (state, pair, downstream) -> {

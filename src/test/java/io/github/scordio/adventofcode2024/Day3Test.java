@@ -47,7 +47,7 @@ class Day3Test {
     assertEquals(expected, answer);
   }
 
-  private static Gatherer<MatchResult, AtomicBoolean, Integer> whenEnabled(ToIntFunction<MatchResult> delegate) {
+  private static Gatherer<MatchResult, ?, Integer> whenEnabled(ToIntFunction<MatchResult> delegate) {
     return Gatherer.ofSequential(
       () -> new AtomicBoolean(true),
       (enabled, result, downstream) -> {
