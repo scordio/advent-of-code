@@ -13,7 +13,7 @@ import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 6: Probably a Fire Hazard")
-class Day6Test {
+class Day6Tests {
 
   @ParameterizedTest
   @CsvSource({

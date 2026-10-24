@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 6: Tuning Trouble")
-class Day6Test {
+class Day6Tests {
 
   @ParameterizedTest
   @CsvSource({

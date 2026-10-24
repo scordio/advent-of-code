@@ -10,7 +10,7 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 1: Calorie Counting")
-class Day1Test {
+class Day1Tests {
 
   @ParameterizedTest
   @CsvSource({
@@ -19,7 +19,7 @@ class Day1Test {
   })
   void part1(@ScanInput(delimiterPattern = "\\R\\R") Scanner scanner, int expected) {
     int answer = scanner.tokens()
-      .mapToInt(Day1Test::calculateCalories)
+      .mapToInt(Day1Tests::calculateCalories)
       .max()
       .orElseThrow();
 
@@ -33,7 +33,7 @@ class Day1Test {
   })
   void part2(@ScanInput(delimiterPattern = "\\R\\R") Scanner scanner, int expected) {
     int answer = scanner.tokens()
-      .mapToInt(Day1Test::calculateCalories)
+      .mapToInt(Day1Tests::calculateCalories)
       // reverse natural order of integers
       .map(i -> ~i)
       .sorted()

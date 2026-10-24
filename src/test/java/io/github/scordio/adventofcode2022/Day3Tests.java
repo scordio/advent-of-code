@@ -10,7 +10,7 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 3: Rucksack Reorganization")
-class Day3Test {
+class Day3Tests {
 
   @ParameterizedTest
   @CsvSource({
@@ -19,7 +19,7 @@ class Day3Test {
   })
   void part1(@ScanInput Scanner scanner, int expected) {
     int answer = scanner.tokens()
-      .mapToInt(Day3Test::calculateRucksackPriority)
+      .mapToInt(Day3Tests::calculateRucksackPriority)
       .sum();
 
     assertEquals(expected, answer);
@@ -30,7 +30,7 @@ class Day3Test {
     var secondCompartment = line.substring(line.length() / 2);
     return firstCompartment.chars()
       .filter(item -> secondCompartment.indexOf(item) >= 0)
-      .map(Day3Test::calculateItemPriority)
+      .map(Day3Tests::calculateItemPriority)
       .findAny()
       .orElseThrow();
   }
@@ -50,7 +50,7 @@ class Day3Test {
 
       answer += firstRucksack.chars()
         .filter(item -> secondRucksack.indexOf(item) >= 0 && thirdRucksack.indexOf(item) >= 0)
-        .map(Day3Test::calculateItemPriority)
+        .map(Day3Tests::calculateItemPriority)
         .findAny()
         .orElseThrow();
     }

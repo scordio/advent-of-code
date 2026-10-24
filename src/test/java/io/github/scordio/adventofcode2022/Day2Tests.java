@@ -11,7 +11,7 @@ import java.util.function.ToIntFunction;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 2: Rock Paper Scissors")
-class Day2Test {
+class Day2Tests {
 
   @ParameterizedTest
   @CsvSource({

@@ -13,7 +13,7 @@ import static java.util.stream.IntStream.iterate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 4: The Ideal Stocking Stuffer")
-class Day4Test {
+class Day4Tests {
 
   @ParameterizedTest
   @CsvSource({

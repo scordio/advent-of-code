@@ -19,9 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 @DisplayName("Day 5: Supply Stacks")
-class Day5Test {
+class Day5Tests {
 
-  static final Arguments[] part1 = new Arguments[] {
+  static final List<?> part1 = List.of(
     arguments("day5-example", "CMZ", List.of(
       new ArrayDeque<>(List.of("N", "Z")),
       new ArrayDeque<>(List.of("D", "C", "M")),
@@ -35,8 +35,7 @@ class Day5Test {
       new ArrayDeque<>(List.of("L", "R", "W", "F", "D", "H")),
       new ArrayDeque<>(List.of("C", "D", "N", "Z")),
       new ArrayDeque<>(List.of("Q", "J", "S", "V", "F", "R", "N", "W")),
-      new ArrayDeque<>(List.of("V", "W", "Z", "G", "S", "M", "R"))))
-  };
+      new ArrayDeque<>(List.of("V", "W", "Z", "G", "S", "M", "R")))));
 
   @ParameterizedTest
   @FieldSource
@@ -63,7 +62,7 @@ class Day5Test {
     assertEquals(expected, answer);
   }
 
-  static final Arguments[] part2 = new Arguments[] {
+  static final List<?> part2 = List.of(
     arguments("day5-example", "MCD", List.of(
       new ArrayDeque<>(List.of("N", "Z")),
       new ArrayDeque<>(List.of("D", "C", "M")),
@@ -77,8 +76,7 @@ class Day5Test {
       new ArrayDeque<>(List.of("L", "R", "W", "F", "D", "H")),
       new ArrayDeque<>(List.of("C", "D", "N", "Z")),
       new ArrayDeque<>(List.of("Q", "J", "S", "V", "F", "R", "N", "W")),
-      new ArrayDeque<>(List.of("V", "W", "Z", "G", "S", "M", "R"))))
-  };
+      new ArrayDeque<>(List.of("V", "W", "Z", "G", "S", "M", "R")))));
 
   @ParameterizedTest
   @FieldSource

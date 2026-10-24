@@ -12,7 +12,7 @@ import static java.util.regex.Pattern.compile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 5: Doesn't He Have Intern-Elves For This?")
-class Day5Test {
+class Day5Tests {
 
   private static final Predicate<String> HAS_THREE_VOWELS = compile(".*[aeiou].*[aeiou].*[aeiou].*").asMatchPredicate();
   private static final Predicate<String> HAS_DOUBLE_LETTER = compile(".*(.)\\1+.*").asMatchPredicate();

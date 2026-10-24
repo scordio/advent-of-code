@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 2: I Was Told There Would Be No Math")
-class Day2Test {
+class Day2Tests {
 
   @ParameterizedTest
   @CsvSource({

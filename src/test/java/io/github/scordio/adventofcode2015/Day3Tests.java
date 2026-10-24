@@ -10,7 +10,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 3: Perfectly Spherical Houses in a Vacuum")
-class Day3Test {
+class Day3Tests {
 
   @ParameterizedTest
   @CsvSource(maxCharsPerColumn = 8192, value = {

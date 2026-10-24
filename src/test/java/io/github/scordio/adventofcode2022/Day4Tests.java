@@ -12,7 +12,7 @@ import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 4: Camp Cleanup")
-class Day4Test {
+class Day4Tests {
 
   @ParameterizedTest
   @CsvSource({

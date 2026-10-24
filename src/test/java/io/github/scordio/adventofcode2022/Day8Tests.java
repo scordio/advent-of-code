@@ -16,7 +16,7 @@ import static java.util.stream.IntStream.range;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 8: Treetop Tree House")
-class Day8Test {
+class Day8Tests {
 
   @ParameterizedTest
   @CsvSource({

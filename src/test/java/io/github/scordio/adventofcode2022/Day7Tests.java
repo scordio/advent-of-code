@@ -22,7 +22,7 @@ import static java.nio.file.Files.write;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Day 7: No Space Left On Device")
-class Day7Test {
+class Day7Tests {
 
   @TempDir
   private Path root;
@@ -55,7 +55,7 @@ class Day7Test {
 
     try (var content = walk(root)) {
       long answer = content.filter(Files::isDirectory)
-        .mapToLong(Day7Test::directorySize)
+        .mapToLong(Day7Tests::directorySize)
         .filter(size -> size <= 100000)
         .sum();
 
@@ -93,7 +93,7 @@ class Day7Test {
 
     try (var content = walk(root)) {
       long answer = content.filter(Files::isDirectory)
-        .mapToLong(Day7Test::directorySize)
+        .mapToLong(Day7Tests::directorySize)
         .filter(size -> size >= needed)
         .min()
         .orElseThrow();
